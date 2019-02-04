@@ -1,0 +1,25 @@
+body {
+    background: black;
+}
+
+h1 {
+    border: solid blue 1px;
+    text-align: center;
+    background: rgba(24, 185, 2, 0.904);
+}
+
+#game-container { 
+    border: solid black 5px;
+    text-align: center;
+}
+/* Prévoir media querries pour le responsive  sur la div et/ou 100% width*/
+
+
+#game-canvas {
+    border: solid red 1px;
+    height: 80vh;
+    width: 100wh;
+    position: relative;
+    padding:0;
+}
+
