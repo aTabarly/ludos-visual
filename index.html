@@ -1,29 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>DARK ZIDE OF THE MOON</title>
+    <link href="https://fonts.googleapis.com/css?family=Share+Tech" rel="stylesheet"> 
     <link rel="stylesheet" href="style.css">
+    <title>DARK ZIDE OF THE MOON</title>
 </head>
+
 <body>
-    <h1>DARK <span>-</span> ZIDE OF THE MOON</h1>
-    <div id="game-container">
-        <canvas id="game-canvas" height="800" width="1200"></canvas>
-    </div>
+    <h1>DARK ZIDE OF THE MOON</h1>
+    <h2>the first simulator of space discovery <br> <span>in partnership with la N.A.Z.A</span></h2>
 
 
     <div id="interface">
 
-
+        <p id="display-com">Message Incoming...</p>
+        <p id="kill">contact established : <span id="kill-count">00</span></p>
+        <p id="score">data gathered : <span id="point">00</span> </p>
+        <button id="restart">restart</button>
+        <button id="play">launch</button>
+        
 
     </div>
 
 
-    <img src="src/image/cv.pdf" alt="CV">
 
 
-    <script src="script3.js"></script>
+    
+    
+    
+    <div id="game-container">
+        <canvas id="game-canvas" height="800" width="1200"></canvas>
+            <div id="instruction">
+                    <span>how to proceed : </span>
+                    <ul>
+                        <li>arrow keys to move.</li>
+                        <li>left click to communicate.</li>
+                    </ul>
+                    <span>objectives : </span>
+                    <ul>
+                        <li>recovered the lost flopy-disk.</li>
+                        <li>established contact with uknown form of life.</li>
+                    </ul>
+                </div>
+        
+    </div>
+
+
+
+    <script src="script4.js"></script>
 </body>
+
 </html>

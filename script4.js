@@ -1,40 +1,3 @@
-/* A faire : 1 la souris DONE
-
-1bis un Idle orienté vers le pointeur si joueur a l'arret ALMOST DONE.
-
-1-2
-requestframe Main Loop and Animation System.
-
-2
-le idle sprite pour tester la souris.
-
-3 
-tir / rajouter un sprite de feu de tir, à placer au niveau du canon du personnage
-/ detruire les bullets qui quittent l'écran.
-4 
-enemy
-
-5 
-collision
-
-6
-map
-
-7 
-paththrought
-
-8
-les autres sprites
-
-9
-le site
-*/
-
-
-/* Mots Clés : responsive, souris, loop, redraw, player, started */
-
-
-
 (function () {
 
 
@@ -59,11 +22,11 @@ le site
     ///////////////////////////////////////////////////////////////////////////////////////////
     //////////////////// La souris. mouseEvent theMouse
 
-    // canvas.addEventListener('mouseover', function (e) {
-    //     if (started) {
-    //         this.style.cursor = "none";
-    //     }
-    // });
+    canvas.addEventListener('mouseover', function (e) {
+        if (started) {
+            this.style.cursor = "none";
+        }
+    }, false);
 
 
     var theMouse = {
@@ -109,7 +72,7 @@ le site
 
         context.drawImage(player.imageTest, 90, 18, 249, 249, this.xOnCanvas - 25, this.yOnCanvas - 25, 50, 50);
 
-    });
+    }, false);
 
 
 
@@ -126,7 +89,7 @@ le site
             player.shoot();
         }
 
-    });
+    }, false);
 
 
 
@@ -144,9 +107,7 @@ le site
             this.width = 2;
             this.height = 2;
 
-            this.hitBoxRadius = 2;
-
-            this.state = bullets.sprite.fly;
+            this.hitBoxRadius = 3;
 
             this.posX = centerX - this.width / 2; /// Position initiale
             this.posY = centerY - this.height / 2;
@@ -163,12 +124,6 @@ le site
         Bullet.prototype.clean = function () {
 
             bullets.list.splice(bullets.list.indexOf(this), 1);
-
-            // bullets.list = bullets.list.filter(function(element, indx){
-            //     return bullets.list[indx] != bullets.list.indexOf(this);
-            // });
-
-
 
             return this;
         };
@@ -209,43 +164,17 @@ le site
 
             for (var i = 0; this.list[i] != undefined; i++) {
 
-                if (this.list[i].state === this.sprite.impact) {
-
-                    // context.drawImage()
-
-                }
-
                 context.beginPath();
-
-                // context.rect(this.list[i].posX, this.list[i].posY, this.list[i].width, this.list[i].height);
 
                 context.arc(this.list[i].posX, this.list[i].posY, this.list[i].hitBoxRadius, 0, 2 * Math.PI);
 
-                context.fillStyle = 'red';
+                context.fillStyle = 'rgb(161, 9, 9)';
                 context.fill();
 
             }
         },
-        sprite: {
-            // fly: {
-            //     x: 710,
-            //     y: 0,
-            //     w: 78,
-            //     h: 52,
-            // },
-            impact: {
-                x: 710,
-                y: 0,
-                w: 78,
-                h: 52,
-            }
 
-        },
     };
-
-    // var balls = bullets.list;
-
-
 
 
     ///////////////////////////////////////////////////////////////////////////////////////////
@@ -262,9 +191,7 @@ le site
         width: 40,
         hitBoxRadius: 20,
 
-        speed: 2.5, // param
-
-        ammo: 15, // param
+        speed: 7, // param
 
         direction: {
 
@@ -304,9 +231,7 @@ le site
 
         shoot: function () {
 
-            if(this.ammo>0) {
 
-            //if(this.ammo>0) {le code} else {code plus de balle + son click}
             player.shooting = true; /// TEST. passe à true pour le sprite
 
             bullets.list[bullets.list.length] = bulletShooted(theMouse.xOnCanvas, theMouse.yOnCanvas, bulletCounter, 30);
@@ -314,7 +239,6 @@ le site
             console.log(bullets.list)
             bulletCounter++;
 
-            this.ammo -= 1;
 
             // son gunshot
 
@@ -324,17 +248,13 @@ le site
 
             }, 250);
 
-            } else {
-                console.log('click');
-            }
-
-
         },
 
         killCount: 0,
 
         move: function () {
             var balls = bullets.list;
+            var disk = floppyDisks.list;
 
 
             if (posture === this.spritePlayer.move) {
@@ -352,6 +272,9 @@ le site
 
                         enemy.list[i].posX += this.speed * facteurEchelle;
                     }
+                    for (var i = 0; disk[i] != undefined; i++ ) {
+                        disk[i].posX += this.speed * facteurEchelle;
+                    }
 
                 }
 
@@ -368,6 +291,9 @@ le site
 
                         enemy.list[i].posY += this.speed * facteurEchelle;
                     }
+                    for (var i = 0; disk[i] != undefined; i++ ) {
+                        disk[i].posY += this.speed * facteurEchelle;
+                    }
                 }
 
                 // Droite
@@ -382,6 +308,9 @@ le site
                     for (var i = 0; enemy.list[i] != undefined; i++) {
 
                         enemy.list[i].posX -= this.speed * facteurEchelle;
+                    }
+                    for (var i = 0; disk[i] != undefined; i++ ) {
+                        disk[i].posX -= this.speed * facteurEchelle;
                     }
                 }
 
@@ -398,6 +327,9 @@ le site
 
                         enemy.list[i].posY -= this.speed * facteurEchelle;
                     }
+                    for (var i = 0; disk[i] != undefined; i++ ) {
+                        disk[i].posY -= this.speed * facteurEchelle;
+                    }
                 }
 
             }
@@ -406,15 +338,19 @@ le site
 
         gameOver: function () {
 
+            boutonStartPause.innerText = 'Proceed';
+
+
             cancelAnimationFrame(stopMainLoop);
             setTimeout(clearing, 1000);
             started = false;
             console.log('GAME OVER');
+            restart();
 
 
         },
 
-        score:0,
+        score: 0,
 
         spritePlayer: {
 
@@ -549,7 +485,7 @@ le site
     var posture = player.spritePlayer.idle; // Indique l'animation à jouer ex: spritePlayer.move/idle
     var oldPosture = posture;  // Référence à l'ancienne posture.
 
-    player.imageTest.src = 'heroTest-withRotation.png';
+    player.imageTest.src = 'player.png';
 
     ///////////////////////////////////////////////////////////////////////////////////////////
     //////////////////// Background imgage.
@@ -560,34 +496,109 @@ le site
     var background = {
 
         // Les limites de navigation sur le background.
-        minX: 320,
-        maxX: 1338,
-        minY: 200,
-        maxY: 772,
+        minX: 110,
+        maxX: 2320,
+        minY: 110,
+        maxY: 1160,
 
         x: initMapX,
         y: initMapY,
-        width: canvasWidth / facteurEchelle, // Largeur sur le fichier source image. !!!!!!!!!!!!! Piste pour Responsive canvas
-        height: canvasHeight / facteurEchelle, // Hauteur sur le fichier source image.
+        sourceWidth: canvasWidth / facteurEchelle, // Largeur sur le fichier source image. 
+        sourceHeight: canvasHeight / facteurEchelle, // Hauteur sur le fichier source image.
 
         map: new Image(),
 
-        draw: function () {
-            context.drawImage(this.map, this.x, this.y, this.width, this.height, 0, 0, canvasWidth, canvasHeight);
 
-            // context.fillStyle = 'rgba(100, 100, 100, 0.5)'
-            // context.fillRect( 0, 0, canvasWidth, canvasHeight);
+        draw: function () {
+
+            context.drawImage(this.map, this.x, this.y, this.sourceWidth, this.sourceHeight, 0, 0, canvasWidth, canvasHeight);
+
+
         },
 
-
     };
-    background.map.src = 'moon.png';
+
+    background.map.src = 'moonWFog.png';
+
 
 
     ///////////////////////////////////////////////////////////////////////////////////////////
-    //////////////////// Obstacle.
+    //////////////////// Disquette.
 
-    var obstacle = {};
+    var randomPos = function (axe) {
+        var value;
+
+        if (axe === 'x') {
+
+            value = Math.random() * (2800 - 110) + 110;
+
+            return value;
+        }
+
+        if (axe === 'y') {
+
+            value = Math.random() * (1100 - 110) + 110;
+
+            return value;
+        }
+    }
+
+    var objectif = function () {
+
+        var Disquette = function (x, y) {
+            this.name = name;
+
+            this.width = 40;
+            this.height = 40;
+
+            this.posX = x; /// Position initiale
+            this.posY = y;
+
+        };
+
+        Disquette.prototype.erase = function () {
+
+            floppyDisks.list.splice(floppyDisks.list.indexOf(this), 1);
+
+        };
+
+
+        var floppy = function (a, b) {
+            return new Disquette(a, b);
+        };
+
+        return floppy;
+
+    }();
+
+    var floppyDisks = {
+
+        list: [],
+        create: function (nbrDeDisquette) {
+
+            for(var i = 0; i< nbrDeDisquette; i++) {
+
+                this.list[this.list.length] = objectif(randomPos('x'), randomPos('y'));
+            }
+
+        },
+
+        image: new Image(),
+
+        draw: function() {
+            for(var i = 0; this.list[i] != undefined; i++) {
+
+                var d = this.list[i];
+
+                context.drawImage(this.image, 150, 360, 130, 130, d.posX, d.posY, d.width, d.height);
+            }
+        }
+
+    };
+
+    floppyDisks.image.src = 'player.png';
+    floppyDisks.create(10);
+
 
 
 
@@ -624,14 +635,10 @@ le site
 
         Zombi.prototype.die = function () {
 
-            if (Math.random()>.9) {
+            enemy.list.splice(enemy.list.indexOf(this), 1);
 
-                this.state = enemy.sprite.ammo;
-                
-            } else {
-                enemy.list.splice(enemy.list.indexOf(this), 1);
-
-            }
+            player.score +=1;
+            player.killCount +=1;
 
         };
 
@@ -647,17 +654,17 @@ le site
 
     var enemy = {
 
-        
-        death: function() {
-            
-            for(var i = 0; this.list[i] != undefined; i++) {
-                if(this.list[i].state === this.sprite.dead) {
+
+        death: function () {
+
+            for (var i = 0; this.list[i] != undefined; i++) {
+                if (this.list[i].state === this.sprite.dead) {
                     this.list[i].die();
                 }
             }
-            
+
         },
-        
+
         list: [],
         // deadList: [], 
 
@@ -688,7 +695,8 @@ le site
 
         },
 
-
+        speedMax: 6,
+        speedMin: 0.1,
         spriteCounter: 0,
 
         draw: function () {
@@ -727,11 +735,11 @@ le site
 
                     context.translate(this.list[i].posX, this.list[i].posY);
 
-                    context.rotate(zAngle + 1.5)
+                    context.rotate(zAngle + 1.5);
 
                     context.drawImage(this.imgTest, this.sprite.walking[c].x, this.sprite.walking[c].y, this.sprite.walking[c].w, this.sprite.walking[c].h, -17, -12.5, 40, 40);
 
-                    context.rotate(-zAngle - 1.5)
+                    context.rotate(-zAngle - 1.5);
 
 
                     context.translate(-this.list[i].posX, -this.list[i].posY);
@@ -753,17 +761,9 @@ le site
 
                     context.drawImage(this.imgTest, this.sprite.dead[0].x, this.sprite.dead[0].y, this.sprite.dead[0].w, this.sprite.dead[0].h, this.list[i].posX - 20, this.list[i].posY - 20, 40, 40);
 
-
-                } else {
-                    // Enemy ammo.
-                    context.beginPath();
-
-                    context.drawImage(this.imgTest, this.sprite.ammo.x, this.sprite.ammo.y, this.sprite.ammo.w, this.sprite.ammo.h, this.list[i].posX - 20, this.list[i].posY - 20, 40, 40);
-
                 }
 
             }
-
 
         },
 
@@ -834,13 +834,6 @@ le site
                 w: 59,
                 h: 72
             }],
-
-            ammo: {
-                x: 324,
-                y: 116,
-                w: 78,
-                h: 71
-            },
         },
 
         invoque: function () { // Methode qui crée de nouveaux zombis, avec un délai et un nombre maximum.
@@ -851,13 +844,13 @@ le site
 
                 setTimeout(function () {
 
-                    enemy.list[enemy.list.length] = createEnemy(2, 0.1); // param
+                    enemy.list[enemy.list.length] = createEnemy(enemy.speedMax, enemy.speedMin); // param
 
                     invocation = false;
 
                     // console.log(enemy.list[enemyCounter]);
 
-                    enemyCounter++
+                    enemyCounter++;
 
                 }, 500);
 
@@ -873,6 +866,7 @@ le site
 
     var collision = function () { // Fonction qui calcule toute les collisions.
 
+        var disk = floppyDisks.list;
         // Player vs Bordure. Renvoie le joueur dans l'aire de jeu. 
         if (background.x < background.minX) {
 
@@ -883,7 +877,11 @@ le site
                 enemy.list[i].posX -= player.speed * facteurEchelle + 6;
 
             }
-
+            // Et des disquettes.
+            for (var i = 0; disk[i] != undefined; i++ ) {
+                disk[i].posX -= player.speed * facteurEchelle +6;
+            }
+            communication('getback');
         }
         if (background.x > background.maxX) {
 
@@ -894,6 +892,11 @@ le site
                 enemy.list[i].posX += player.speed * facteurEchelle + 6;
 
             }
+            for (var i = 0; disk[i] != undefined; i++ ) {
+                disk[i].posX += player.speed * facteurEchelle +6;
+            }
+            communication('getback');
+
         }
         if (background.y < background.minY) {
 
@@ -904,6 +907,11 @@ le site
                 enemy.list[i].posY -= player.speed * facteurEchelle + 6;
 
             }
+            for (var i = 0; disk[i] != undefined; i++ ) {
+                disk[i].posY -= player.speed * facteurEchelle +6;
+            }
+            communication('getback');
+
         }
         if (background.y > background.maxY) {
 
@@ -914,6 +922,26 @@ le site
                 enemy.list[i].posY += player.speed * facteurEchelle + 6;
 
             }
+            for (var i = 0; disk[i] != undefined; i++ ) {
+                disk[i].posY += player.speed * facteurEchelle +6;
+            }
+            communication('getback');
+
+        }
+        //// Player vs Disquette.
+
+        var disk = floppyDisks.list;
+
+        for (var i = 0; disk[i] != undefined; i++) {
+            if (disk[i].posX < player.hitBoxX + player.width &&
+                disk[i].posX + disk[i].width > player.hitBoxX &&
+                disk[i].posY < player.hitBoxY + player.height &&
+                disk[i].height + disk[i].posY > player.hitBoxY + 10) {
+                    
+                    player.score +=50;
+                    return disk[i].erase();
+
+                }
         }
 
 
@@ -944,8 +972,6 @@ le site
 
                     if (collisionX && collisionY) { // Si collision, on modifie leur position.
 
-
-
                         enemy.list[i].posX += Math.random() * (10) - 5;
                         enemy.list[i].posY += Math.random() * (10) - 5;
 
@@ -965,23 +991,16 @@ le site
                 enemy.list[i].hitBoxY < player.hitBoxY + player.height - 10 &&
                 enemy.list[i].height + enemy.list[i].hitBoxY > player.hitBoxY + 10) {
 
-                    if (enemy.list[i].state === enemy.sprite.walking) {
+                if (enemy.list[i].state === enemy.sprite.walking) {
 
-                        // player.gameOver();
-        
-                        console.log('GAME OVER');
+                    player.gameOver();
 
-                    } else if (enemy.list[i].state === enemy.sprite.ammo) {
+                    // alert('GAME OVER');
 
-                        player.ammo += 5; // param
-                        return enemy.list.splice(enemy.list.indexOf(i), 1);
+                }
 
 
-                    } else {
 
-                        return player.score +=5;
-
-                    }
 
 
 
@@ -997,10 +1016,6 @@ le site
 
                         enemy.list[i].state = enemy.sprite.dead; // On change le sprite du zombi.
 
-                        // setTimeout(function(){
-                        //     enemy.list[i].die();
-                        // },2000);
-
                         return bullets.list[j].clean(); // On supprime la bullet en supprimant son référencement.
 
 
@@ -1009,60 +1024,11 @@ le site
                 }
 
 
-
             }
-
-            //////
-
 
 
         }
 
-        // Z vs player. 1 seule vie, provoque le game over.
-
-        // for (var i = 0; enemy.list[i] != undefined; i++) {
-
-
-        //     enemy.list[i].hitBoxX = enemy.list[i].posX - enemy.list[i].hitBoxRadius + 10;
-        //     enemy.list[i].hitBoxY = enemy.list[i].posY - enemy.list[i].hitBoxRadius + 10;
-
-        //     // if (enemy.list[i].state === enemy.sprite.walking && enemy.list[i].hitBoxX < player.hitBoxX + player.width - 10 &&
-        //     //     enemy.list[i].hitBoxX + enemy.list[i].width > player.hitBoxX + 10 &&
-        //     //     enemy.list[i].hitBoxY < player.hitBoxY + player.height - 10 &&
-        //     //     enemy.list[i].height + enemy.list[i].hitBoxY > player.hitBoxY + 10) {
-
-        //     //     // player.gameOver();
-
-        //     //     console.log('GAME OVER');
-
-        //     // }
-        // }
-
-
-        //// Z vs bullet. Le Z explose. On compare la position de chaque bullet avec la position de chaque zombi 'vivant'. 
-
-        // for (var i = 0; bullets.list[i] != undefined; i++) {
-
-        //     for (var j = 0; enemy.list[j] != undefined; j++) {
-
-        //         if (enemy.list[j].state === enemy.sprite.walking) {
-
-        //             if (bullets.list[i].posX < enemy.list[j].posX + enemy.list[j].width && bullets.list[i].posX > enemy.list[j].posX && bullets.list[i].posY < enemy.list[j].posY + enemy.list[j].height && bullets.list[i].posY > enemy.list[j].posY) {
-        //                 console.log('la balle touche');
-
-        //                 enemy.list[j].state = enemy.sprite.dead; // On change son sprite.
-
-        //                 return bullets.list[i].clean(); // On supprime la bullet en supprimant toute référence.
-
-
-        //             }
-
-        //         }
-
-
-        //     }
-
-        // }
 
     };
 
@@ -1098,6 +1064,9 @@ le site
             // drawbackground
             background.draw();
 
+            floppyDisks.draw();
+
+
             if (balls.length > 0) { // Si une balle est active on la déplace/dessine.
                 bullets.move();
                 bullets.draw();
@@ -1128,6 +1097,8 @@ le site
             theMouse.draw();
 
 
+
+
             // update enemy death
 
             enemy.death();
@@ -1143,13 +1114,24 @@ le site
         if ((tFrame - timeBase2) >= 200) {
             timeBase2 = tFrame;
             counter++;
-            enemy.spriteCounter ++;
+            enemy.spriteCounter++;
+
+            // console.log(floppyDisks.list);
 
 
+            updateDisplayedScore();
 
-            if (bullets.list.length > 0) {
+            // if (bullets.list.length > 0) {
 
-                console.log(bullets.list[0].destinationX + " impact " + bullets.list[0].destinationY);
+            //     console.log(bullets.list[0].destinationX + " impact " + bullets.list[0].destinationY);
+            // }
+
+            if(floppyDisks.list.length === 0) {
+                floppyDisks.create(5);
+            }
+
+            if(player.score >= 1000) {
+                alert('victory');
             }
 
         };
@@ -1202,11 +1184,13 @@ le site
 
     };
 
-    var boutonStartPause = window.document.querySelector('h1');
+    var boutonStartPause = window.document.getElementById('play');
 
 
 
     boutonStartPause.addEventListener('click', function () {
+
+
 
         console.log('on click sur start')
 
@@ -1214,13 +1198,22 @@ le site
             cancelAnimationFrame(stopMainLoop);
             started = false;
             console.log('ON STOOOOOOP')
+
+            canvas.style.display = 'none';
+            window.document.getElementById('instruction').style.display = 'block';
+            boutonStartPause.innerText = 'Proceed';
         } else {
             start();
             console.log('STARTED = ' + started);
 
+            window.document.getElementById('instruction').style.display = 'none';
+            canvas.style.display = 'block';
+            boutonStartPause.innerText = 'Abort';
+
+
         }
 
-    });
+    }, false);
 
 
 
@@ -1277,7 +1270,7 @@ le site
 
         };
 
-    });
+    }, false);
 
     window.addEventListener('keyup', function (event) {
 
@@ -1326,7 +1319,7 @@ le site
 
         };
 
-    });
+    }, false);
     ///////////////////////////////////////////////////////////////////////////////////////////
     //////////////////// 
 
@@ -1336,11 +1329,11 @@ le site
 
     canvas.addEventListener('contextmenu', function (e) {
         e.preventDefault();
-    });
+    }, false);
 
     window.addEventListener('dblclick', function (e) {
         e.preventDefault();
-    });
+    }, false);
 
 
     window.addEventListener('keydown', function (e) {
@@ -1350,4 +1343,67 @@ le site
         }
     }, false);
 
+
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    // Dom Dom
+
+    var communication = function(code) {
+
+        var com = window.document.getElementById('display-com');
+
+        if(code === 'getback') {
+            com.innerText = 'Il me semble que l\'on s\éloigne de l\'objectif .';
+            setTimeout(function(){
+                com.innerText = 'Message Incoming...';
+
+            },1500);
+        }
+
+
+    };
+
+
+    var updateDisplayedScore = function () {
+        if ( player.score < 10) {
+
+            window.document.getElementById('point').innerText = '0' + player.score;
+
+        } else {
+
+            window.document.getElementById('point').innerText = player.score;
+
+        }
+        if ( player.killCount < 10) {
+
+            window.document.getElementById('kill-count').innerText =  '0' +  player.killCount;
+
+        } else {
+            window.document.getElementById('kill-count').innerText =  player.killCount;
+        }
+
+    };
+
+    
+
+    var restart = function(){
+
+        bullets.list = [];
+        enemy.list = [];
+        background.x = initMapX;
+        background.y = initMapY;
+        player.score = 0;
+
+        floppyDisks.list = [];
+        floppyDisks.create(6);
+
+    }
+
+    
+        var boutonRestart = window.document.getElementById('restart');
+        boutonRestart.addEventListener('click',restart, false);
+
+    
 })();

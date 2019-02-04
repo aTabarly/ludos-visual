@@ -1,25 +1,71 @@
 body {
     background: black;
+    color: green;
+    font-size: 1rem;
+    font-family: 'Share Tech', sans-serif;
 }
 
 h1 {
-    border: solid blue 1px;
+    border: solid rgb(67, 201, 55) 1px;
+    font-size: 5rem;
     text-align: center;
-    background: rgba(24, 185, 2, 0.904);
+    text-transform: uppercase;
+
+}
+
+h2 {
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 1.8rem;
+
+
+}
+
+h2>span {
+    font-size: .9rem;
+
 }
 
 #game-container { 
     border: solid black 5px;
     text-align: center;
+    margin: 2rem 10% 2rem 10%;
+    border: solid rgb(56, 9, 9) 1px;
+
 }
 /* Prévoir media querries pour le responsive  sur la div et/ou 100% width*/
 
 
 #game-canvas {
     border: solid red 1px;
-    height: 80vh;
-    width: 100wh;
+    height: 800px;
+    width: 1200px;
     position: relative;
     padding:0;
+    display: none;
 }
+
+#interface {
+    border: solid rgb(67, 201, 55) 1px;
+    font-size: 1.2rem;
+    /* text-transform: uppercase; */
+
+}
+
+#instruction {
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    text-align: left;
+    height: 800px;
+    width: 1200px;
+
+}
+
+#display-com {
+    padding-right: 10rem;
+    text-align: right;
+}
+
+
+
 
