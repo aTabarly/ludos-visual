@@ -29,7 +29,7 @@ h2>span {
 #game-container { 
     border: solid black 5px;
     text-align: center;
-    margin: 2rem 10% 2rem 10%;
+    margin: 2rem auto;
     border: solid rgb(56, 9, 9) 1px;
 
 }
@@ -43,6 +43,9 @@ h2>span {
     position: relative;
     padding:0;
     display: none;
+    margin: auto;
+
+    
 }
 
 #interface {
@@ -58,6 +61,7 @@ h2>span {
     text-align: left;
     height: 800px;
     width: 1200px;
+    margin: 3rem 20%;
 
 }
 

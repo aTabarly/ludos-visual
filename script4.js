@@ -1,9 +1,8 @@
 (function () {
-
-
-
     "use strict";
-
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Welcome to the canvas
 
     //// Déclaration initiale canvas (+dimension) context .
 
@@ -340,7 +339,7 @@
 
             boutonStartPause.innerText = 'Proceed';
 
-
+            communication('dead');
             cancelAnimationFrame(stopMainLoop);
             setTimeout(clearing, 1000);
             started = false;
@@ -452,7 +451,7 @@
             context.translate(-this.posX, -this.posY);
 
             // Le cercle et le marqueur d'orientation.
-            context.arc(this.posX, this.posY, this.hitBoxRadius, 0, 2 * Math.PI);
+            /*context.arc(this.posX, this.posY, this.hitBoxRadius, 0, 2 * Math.PI);
             context.moveTo(this.posX, this.posY);
 
             context.lineTo(this.posX + 20 * Math.cos(theMouse.angleCenter), this.posY + 20 * Math.sin(theMouse.angleCenter));
@@ -463,7 +462,8 @@
             context.strokeStyle = 'green';
             context.strokeRect(this.hitBoxX, this.hitBoxY, this.width, this.height);
 
-            context.fillStyle = 'rgba(100, 100, 100, 0.3)';
+*/
+            context.fillStyle = 'rgba(100, 100, 100, 0.1)';
             context.fillRect(0, 0, canvasWidth, canvasHeight);
 
 
@@ -616,8 +616,17 @@
 
             this.speed = Math.random() * (maxSpeed - minSpeed) + minSpeed;
 
-            this.posX = Math.random() * (500) + canvasWidth;
-            this.posY = Math.random() * (canvasHeight + 300) - 300;
+            if(Math.random()>0.49) {
+                this.posX = Math.random() * (500) + canvasWidth;
+                this.posY = Math.random() * (canvasHeight + 300) - 300;
+
+            } else {
+                this.posX = Math.random() * (-500);
+                this.posY = Math.random() * (canvasHeight + 400) - 400;
+            }
+            
+
+
 
             this.hitBoxRadius = 20; // Option collision cercle.
             this.hitBoxX = this.posX - this.hitBoxRadius;
@@ -695,7 +704,7 @@
 
         },
 
-        speedMax: 6,
+        speedMax: 9.5,
         speedMin: 0.1,
         spriteCounter: 0,
 
@@ -718,18 +727,18 @@
                     var c = this.spriteCounter;
 
 
-                    var zDeltaX = centerX - this.list[i].hitBoxX; // difference X entre le pointeur et le centre.
-                    var zDeltaY = centerY - this.list[i].hitBoxY; // difference Y entre le pointeur et le centre.
+                    var zDeltaX = centerX - this.list[i].hitBoxX; // difference X entre le zombi.
+                    var zDeltaY = centerY - this.list[i].hitBoxY; //
 
                     var zAngle = Math.atan2(zDeltaY, zDeltaX);// L'angle en radians 
 
-                    context.beginPath();
+                    /*context.beginPath();
 
                     context.rect(this.list[i].hitBoxX, this.list[i].hitBoxY, this.list[i].width, this.list[i].height);
 
                     context.strokeStyle = 'orange'; // rgb
 
-                    context.stroke();
+                    context.stroke();*/
 
                     context.beginPath();
 
@@ -749,7 +758,7 @@
                 } else if (this.list[i].state === enemy.sprite.dead) {
                     // Enemy dead.
 
-                    context.beginPath();
+                   /* context.beginPath();
 
                     context.rect(this.list[i].hitBoxX, this.list[i].hitBoxY, this.list[i].width, this.list[i].height);
 
@@ -757,7 +766,7 @@
 
                     context.stroke();
 
-                    context.beginPath();
+                    context.beginPath();*/
 
                     context.drawImage(this.imgTest, this.sprite.dead[0].x, this.sprite.dead[0].y, this.sprite.dead[0].w, this.sprite.dead[0].h, this.list[i].posX - 20, this.list[i].posY - 20, 40, 40);
 
@@ -838,7 +847,7 @@
 
         invoque: function () { // Methode qui crée de nouveaux zombis, avec un délai et un nombre maximum.
 
-            if (this.list.length < 80 && !invocation) { // param z nbr
+            if (this.list.length < 100 && !invocation) { // param z nbr
 
                 invocation = true;
 
@@ -881,7 +890,7 @@
             for (var i = 0; disk[i] != undefined; i++ ) {
                 disk[i].posX -= player.speed * facteurEchelle +6;
             }
-            communication('getback');
+            communication('getback'); // Petit message pour la trame.
         }
         if (background.x > background.maxX) {
 
@@ -928,7 +937,7 @@
             communication('getback');
 
         }
-        //// Player vs Disquette.
+        //// Player vs Disquette rapporte des points.
 
         var disk = floppyDisks.list;
 
@@ -946,7 +955,7 @@
 
 
         ////// Enemy vs Enemy vs Player. Une boucle parcour le tableau qui contient les références aux zombis.
-        // On verifie s'il y a une collision avec une autre enemy ou le player.
+        // On verifie s'il y a une collision avec un autre enemy ou le player.
         for (var i = 0; enemy.list[i] != undefined; i++) {
 
             enemy.list[i].hitBoxX = enemy.list[i].posX - enemy.list[i].hitBoxRadius;
@@ -978,12 +987,10 @@
                         enemy.list[j].posX += Math.random() * (10) - 5;
                         enemy.list[j].posY += Math.random() * (10) - 5;
 
-                        // console.log('on passe la avec : ' + enemy.list[i].num)
-
-
                     }
                 }
             }
+
             // Z vs player. On compare la position de chaque enemy avec la position de player. 1 seule vie, la collision provoque le game over.
 
             if (enemy.list[i].hitBoxX < player.hitBoxX + player.width - 10 &&
@@ -995,17 +1002,11 @@
 
                     player.gameOver();
 
-                    // alert('GAME OVER');
-
                 }
 
-
-
-
-
-
-
             }
+
+            // Z vs bullet. 
 
             for (var j = 0; bullets.list[j] != undefined; j++) {
 
@@ -1147,19 +1148,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     ///////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////// Nettoyage.
 
@@ -1174,9 +1162,9 @@
 
 
     ///////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////  START / PAUSE 
+    ////////////////////  START / PAUSE. 
 
-    // on lance
+    // On lance la boucle principale
 
     var start = function () {
         started = true;
@@ -1186,23 +1174,23 @@
 
     var boutonStartPause = window.document.getElementById('play');
 
-
+    // Bouton start / pause. On affiche soit la div instruction soit le canvas 
 
     boutonStartPause.addEventListener('click', function () {
 
 
 
         console.log('on click sur start')
-
-        if (started) {
-            cancelAnimationFrame(stopMainLoop);
+        
+        if (started) { // Pause.
+            cancelAnimationFrame(stopMainLoop); // On stop le request animation frame de mainLoop.
             started = false;
             console.log('ON STOOOOOOP')
-
+            
             canvas.style.display = 'none';
             window.document.getElementById('instruction').style.display = 'block';
             boutonStartPause.innerText = 'Proceed';
-        } else {
+        } else { // Start.
             start();
             console.log('STARTED = ' + started);
 
@@ -1347,21 +1335,24 @@
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    // Dom Dom
+    // Partie Interface / affichage des scores.
 
     var communication = function(code) {
 
         var com = window.document.getElementById('display-com');
 
         if(code === 'getback') {
-            com.innerText = 'Il me semble que l\'on s\éloigne de l\'objectif .';
-            setTimeout(function(){
-                com.innerText = 'Message Incoming...';
-
-            },1500);
+            com.innerText = 'Get back to the mission...';
+            
+        }
+        if(code === 'dead') {
+            com.innerText = 'We seem to have lost the connection...';
         }
 
+        setTimeout(function(){
+            com.innerText = 'Message Incoming...';
+
+        },2500);
 
     };
 
@@ -1381,20 +1372,24 @@
             window.document.getElementById('kill-count').innerText =  '0' +  player.killCount;
 
         } else {
+
             window.document.getElementById('kill-count').innerText =  player.killCount;
+
         }
 
     };
 
     
-
+    // On réinitialise la position du background, les enemy, les bullets et les scores.
     var restart = function(){
 
         bullets.list = [];
         enemy.list = [];
         background.x = initMapX;
         background.y = initMapY;
+
         player.score = 0;
+        player.killCount = 0;
 
         floppyDisks.list = [];
         floppyDisks.create(6);
