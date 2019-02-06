@@ -44,9 +44,6 @@
 
             context.drawImage(player.imageTest, 90, 18, 249, 249, this.xOnCanvas - 25, this.yOnCanvas - 25, 50, 50);
 
-
-
-
         }
     };
 
@@ -54,8 +51,6 @@
     canvas.addEventListener('mousemove', function (e) {
 
         // console.log('mouse canvas coordonnées : ' + theMouse.angleCenter);
-
-
 
         theMouse.xOnCanvas = e.offsetX;
         theMouse.yOnCanvas = e.offsetY;
@@ -75,21 +70,27 @@
 
 
 
-    // var shooting;
+    // On ouvre le feu avec clique gauche ou space
     var bulletCounter = 1;
 
-    canvas.addEventListener('click', function (e) {
+
+    canvas.addEventListener('mousedown', function (e) {
 
         if (started) {
-
-            // console.log('target x y : ' + theMouse.xOnCanvas + '  ' + theMouse.yOnCanvas + ' list of bullet = ' + bullets.list);
-
 
             player.shoot();
         }
 
     }, false);
 
+    window.document.addEventListener('keydown', function (e) {
+
+        if (started && e.keyCode === 32 && !player.fullAuto) {
+
+            player.shoot();
+        }
+
+    }, false);
 
 
 
@@ -191,6 +192,8 @@
         hitBoxRadius: 20,
 
         speed: 7, // param
+        fireRate: 175,
+        fullAuto: false,
 
         direction: {
 
@@ -230,6 +233,7 @@
 
         shoot: function () {
 
+            player.fullAuto = true;
 
             player.shooting = true; /// TEST. passe à true pour le sprite
 
@@ -240,6 +244,13 @@
 
 
             // son gunshot
+            setTimeout(function () {
+
+                player.fullAuto = false;
+
+            }, player.fireRate);
+
+
 
             setTimeout(function () {
 
@@ -338,9 +349,13 @@
         gameOver: function () {
 
             window.document.getElementById('btncv').style.display = 'inline';
-
-
-            boutonStartPause.innerText = 'Proceed';
+            canvas.style.display = 'none';
+            window.document.getElementById('instruction').style.display = 'inline-block';
+            
+            window.document.getElementById('resultat').style.display = 'inline';
+            window.document.getElementById('resultat').innerText = 'GAME - OVER';
+            window.document.getElementById('resultat').style.color = 'rgb(167, 4, 4)';
+            
 
             communication('dead');
             cancelAnimationFrame(stopMainLoop);
@@ -533,14 +548,14 @@
 
         if (axe === 'x') {
 
-            value = Math.random() * (2800 - 110) + 110;
+            value = Math.random() * (2400) +100;
 
             return value;
         }
 
         if (axe === 'y') {
 
-            value = Math.random() * (1100 - 110) + 110;
+            value = Math.random() * (1400) + 100;
 
             return value;
         }
@@ -707,7 +722,7 @@
 
         },
 
-        speedMax: 9.5,
+        speedMax: 6,
         speedMin: 0.1,
         spriteCounter: 0,
 
@@ -950,7 +965,7 @@
                 disk[i].posY < player.hitBoxY + player.height &&
                 disk[i].height + disk[i].posY > player.hitBoxY + 10) {
 
-                player.score += 50;
+                player.score += 85;
                 return disk[i].erase();
 
             }
@@ -1134,9 +1149,12 @@
                 floppyDisks.create(5);
             }
 
-            if (player.score >= 1000) {
+            if (player.score > 1000) {
                 window.document.getElementById('btncv').style.display = 'inline';
                 window.document.getElementById('instruction').innerText = '--- VICTORY ---';
+                window.document.getElementById('resultat').style.display = 'block';
+                window.document.getElementById('resultat').style.color = 'green';
+                window.document.getElementById('resultat').innerText = '--- VICTORY ---';
 
             }
 
@@ -1177,15 +1195,34 @@
 
     };
 
-    var boutonStartPause = window.document.getElementById('play');
+    var boutonStart = window.document.getElementById('play');
 
     // Bouton start / pause. On affiche soit la div instruction soit le canvas 
 
-    boutonStartPause.addEventListener('click', function () {
+    boutonStart.addEventListener('click', function () {
 
 
 
         console.log('on click sur start')
+
+        if(!started) { // Start.
+            start();
+            console.log('STARTED = ' + started);
+
+            window.document.getElementById('instruction').style.display = 'none';
+            window.document.getElementById('resultat').style.display = 'none';
+            canvas.style.display = 'block';
+
+
+        }
+
+    }, false);
+
+    window.document.getElementById('abort').addEventListener('click', function () {
+
+
+
+        console.log('on click sur start');
 
         if (started) { // Pause.
             cancelAnimationFrame(stopMainLoop); // On stop le request animation frame de mainLoop.
@@ -1194,17 +1231,8 @@
 
             canvas.style.display = 'none';
             window.document.getElementById('instruction').style.display = 'block';
-            boutonStartPause.innerText = 'Proceed';
-        } else { // Start.
-            start();
-            console.log('STARTED = ' + started);
-
-            window.document.getElementById('instruction').style.display = 'none';
-            canvas.style.display = 'block';
-            boutonStartPause.innerText = 'Abort';
-
-
-        }
+            boutonStart.innerText = 'start';
+        } 
 
     }, false);
 
@@ -1365,11 +1393,11 @@
     var updateDisplayedScore = function () {
         if (player.score < 10) {
 
-            window.document.getElementById('point').innerText = '0' + player.score;
+            window.document.getElementById('point').innerText = '0' + player.score ;
 
         } else {
 
-            window.document.getElementById('point').innerText = player.score;
+            window.document.getElementById('point').innerText = player.score ;
 
         }
         if (player.killCount < 10) {
@@ -1390,6 +1418,9 @@
 
         bullets.list = [];
         enemy.list = [];
+
+        window.document.getElementById('resultat').style.display = 'none';
+
         background.x = initMapX;
         background.y = initMapY;
 
@@ -1397,7 +1428,7 @@
         player.killCount = 0;
 
         floppyDisks.list = [];
-        floppyDisks.create(6);
+        floppyDisks.create(10);
 
     }
 

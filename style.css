@@ -65,9 +65,9 @@ h4 {
 
 header ul {
     display: inline-block;
-    padding-top: 1rem;
-    padding-bottom: 2rem;
+padding: 0 20px 30px 20px;
     width: 15%;
+    min-width:200px;
     /* text-align: center; */
 }
 
@@ -75,10 +75,15 @@ header ul a {
     font-size: 2rem;
     text-transform: uppercase;
 }
+header li {
+    padding-top: 10px;
+}
 
 header ul a:hover {
     background: green;
     color: rgb(138, 243, 182);
+    border-radius: 5px;
+    border: rgb(138, 243, 182) 1.5px solid;
 }
 
 header span {
@@ -96,6 +101,7 @@ h2 {
     font-size: 5rem;
     text-align: center;
     text-transform: uppercase;
+    padding: 20px 0;
 }
 
 h3 {
@@ -112,7 +118,6 @@ h3>span {
     background: black;
     color: green;
     position: relative;
-    /* text-align: center; */
 }
 
 #game-container {
@@ -124,8 +129,7 @@ h3>span {
 
 #game-canvas {
     border: solid red 1px;
-    height: 800px;
-    width: 1200px;
+    height: 85vh;
     position: relative;
     padding: 0;
     display: none;
@@ -136,6 +140,7 @@ h3>span {
     position: relative;
     display: inline-block;
     border: solid rgb(67, 201, 55) 1px;
+    box-sizing: border-box;
     font-size: 1.2rem;
     text-align: left;
     width: 100%;
@@ -166,11 +171,22 @@ h3>span {
 
 #instruction {
     font-size: 1.2rem;
-    text-transform: uppercase;
     text-align: left;
     height: 800px;
     width: 1200px;
     margin: 3rem 20%;
+}
+#instruction span {
+    text-transform: uppercase;
+}
+
+h2:last-of-type {
+    color: rgb(167, 4, 4);
+    display: none;
+}
+
+h5 {
+    font-size: 1rem;
 }
 
 #display-com {
@@ -179,6 +195,7 @@ h3>span {
 }
 
 button {
+    box-sizing: border-box;
     background: green;
     border-left: rgb(3, 68, 3) 5px solid;
     border-bottom: rgb(3, 68, 3) 5px solid;
@@ -190,8 +207,18 @@ button {
     font-weight: bold;
 }
 
+#abort{
+    background: rgb(129, 38, 10);
+    border-left: rgb(90, 30, 12) 5px solid;
+    border-bottom: rgb(90, 30, 12) 5px solid;
+}
+#abort:focus {
+    border: rgb(78, 27, 11) 6px solid;
+    background: rgb(117, 34, 9);
+}
+
 button:focus {
-    border: rgb(4, 36, 4) 5px solid;
+    border: rgb(4, 36, 4) 6px solid;
     background: rgb(3, 70, 3);
 }
 

@@ -16,7 +16,7 @@
         <div id="intro">
 
             <div id="titre">
-                <h1>Découvrez le c.v. en explorant la Lune</h1>
+                <h1>Découvrez un c.v. en explorant la Lune</h1>
                 <p>"Un petit pas pour l'homme, un grand pas pour l'Humanité" 50 ans - "Un c.v. dans un jeu mais aussi
                     un jeu dans un c.v."</p>
             </div>
@@ -48,12 +48,19 @@
 
 
 
+        <div>
+            <button id="restart">refresh</button>
+            <a href="#restart"><button id="play">launch</button></a>
+            <button id="abort">abort</button>
+            <a id="btncv" href="#cv"><button>c.v.</button></a>
+        </div>
 
-        <button id="restart">restart</button>
-        <button id="play">launch</button>
-        <a id="btncv" href="#cv"><button class="action">c.v.</button></a> 
+        <div id="scoring">
+            <p id="kill">contact established : <span id="kill-count">00</span></p>
+            <p id="score">data gathered : <span id="point">00</span> /1 000 ko </p>
+            <p id="display-com">Message Incoming...</p>
 
-
+        </div>
 
 
         <div id="game-container">
@@ -63,24 +70,38 @@
                 <span>how to proceed : </span>
                 <ul>
                     <li>arrow keys to move.</li>
-                    <li>left click to communicate.</li>
+                    <li>left click / space to communicate.</li>
                 </ul>
+                <br>
+                <span>briefing : </span><br>
+                <p>We have lost contact with a chinese cosmonaut team, who was on a mission on the dark side of the
+                    moon. <br><br>
+                    You have to investigate their last known position and collect the fruits of their research. <br><br>
+                    We think that there is something up there ... Something alive ...
+                </p><br><br>
                 <span>objectives : </span>
                 <ul>
                     <li>recover the lost flopy-disks.</li>
                     <li>establish first contact with unknown form of life.</li>
+
                 </ul>
+
+                <h2 id="resultat">GAME - OVER</h2>
+
             </div>
+            
 
             <div id="interface">
 
                 <h5>Transmission...</h5>
 
-                <p id="kill">contact established : <span id="kill-count">00</span></p>
-                <p id="score">data gathered : <span id="point">00</span> </p>
-                <p id="display-com">Message Incoming...</p>
+
+                <div id="success">
+
+
+                </div>
                 <ul>
-                    <h5>processing data...</h5>
+                    <h5>You obtained some intel on your recruit, but there is yet more to learn</h5>
                     <li id="un">1 - html&Css</li>
                     <li id="deux">2 - JavaScript</li>
                     <li id="trois">3 - AngularJs</li>
@@ -93,9 +114,7 @@
 
 
 
-            <div id="success">
 
-            </div>
 
         </div>
 
@@ -103,7 +122,7 @@
 
     <div id="cv">
 
-        <iframe src="src/img/CV-Tabarly.pdf" width="600" height="800"></iframe>
+        <iframe src="src/img/CV-Tabarly.pdf" width="1000" height="1400"></iframe>
 
     </div>
 
