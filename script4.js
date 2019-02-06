@@ -271,7 +271,7 @@
 
                         enemy.list[i].posX += this.speed * facteurEchelle;
                     }
-                    for (var i = 0; disk[i] != undefined; i++ ) {
+                    for (var i = 0; disk[i] != undefined; i++) {
                         disk[i].posX += this.speed * facteurEchelle;
                     }
 
@@ -290,7 +290,7 @@
 
                         enemy.list[i].posY += this.speed * facteurEchelle;
                     }
-                    for (var i = 0; disk[i] != undefined; i++ ) {
+                    for (var i = 0; disk[i] != undefined; i++) {
                         disk[i].posY += this.speed * facteurEchelle;
                     }
                 }
@@ -308,7 +308,7 @@
 
                         enemy.list[i].posX -= this.speed * facteurEchelle;
                     }
-                    for (var i = 0; disk[i] != undefined; i++ ) {
+                    for (var i = 0; disk[i] != undefined; i++) {
                         disk[i].posX -= this.speed * facteurEchelle;
                     }
                 }
@@ -326,7 +326,7 @@
 
                         enemy.list[i].posY -= this.speed * facteurEchelle;
                     }
-                    for (var i = 0; disk[i] != undefined; i++ ) {
+                    for (var i = 0; disk[i] != undefined; i++) {
                         disk[i].posY -= this.speed * facteurEchelle;
                     }
                 }
@@ -336,6 +336,9 @@
         },
 
         gameOver: function () {
+
+            window.document.getElementById('btncv').style.display = 'inline';
+
 
             boutonStartPause.innerText = 'Proceed';
 
@@ -485,7 +488,7 @@
     var posture = player.spritePlayer.idle; // Indique l'animation à jouer ex: spritePlayer.move/idle
     var oldPosture = posture;  // Référence à l'ancienne posture.
 
-    player.imageTest.src = 'player.png';
+    player.imageTest.src = 'src/img/player.png';
 
     ///////////////////////////////////////////////////////////////////////////////////////////
     //////////////////// Background imgage.
@@ -518,7 +521,7 @@
 
     };
 
-    background.map.src = 'moonWFog.png';
+    background.map.src = 'src/img/moonWFog.png';
 
 
 
@@ -576,7 +579,7 @@
         list: [],
         create: function (nbrDeDisquette) {
 
-            for(var i = 0; i< nbrDeDisquette; i++) {
+            for (var i = 0; i < nbrDeDisquette; i++) {
 
                 this.list[this.list.length] = objectif(randomPos('x'), randomPos('y'));
             }
@@ -585,8 +588,8 @@
 
         image: new Image(),
 
-        draw: function() {
-            for(var i = 0; this.list[i] != undefined; i++) {
+        draw: function () {
+            for (var i = 0; this.list[i] != undefined; i++) {
 
                 var d = this.list[i];
 
@@ -596,7 +599,7 @@
 
     };
 
-    floppyDisks.image.src = 'player.png';
+    floppyDisks.image.src = 'src/img/player.png';
     floppyDisks.create(10);
 
 
@@ -616,7 +619,7 @@
 
             this.speed = Math.random() * (maxSpeed - minSpeed) + minSpeed;
 
-            if(Math.random()>0.49) {
+            if (Math.random() > 0.49) {
                 this.posX = Math.random() * (500) + canvasWidth;
                 this.posY = Math.random() * (canvasHeight + 300) - 300;
 
@@ -624,7 +627,7 @@
                 this.posX = Math.random() * (-500);
                 this.posY = Math.random() * (canvasHeight + 400) - 400;
             }
-            
+
 
 
 
@@ -646,8 +649,8 @@
 
             enemy.list.splice(enemy.list.indexOf(this), 1);
 
-            player.score +=1;
-            player.killCount +=1;
+            player.score += 1;
+            player.killCount += 1;
 
         };
 
@@ -758,15 +761,15 @@
                 } else if (this.list[i].state === enemy.sprite.dead) {
                     // Enemy dead.
 
-                   /* context.beginPath();
-
-                    context.rect(this.list[i].hitBoxX, this.list[i].hitBoxY, this.list[i].width, this.list[i].height);
-
-                    context.strokeStyle = 'pink'; // rgb
-
-                    context.stroke();
-
-                    context.beginPath();*/
+                    /* context.beginPath();
+ 
+                     context.rect(this.list[i].hitBoxX, this.list[i].hitBoxY, this.list[i].width, this.list[i].height);
+ 
+                     context.strokeStyle = 'pink'; // rgb
+ 
+                     context.stroke();
+ 
+                     context.beginPath();*/
 
                     context.drawImage(this.imgTest, this.sprite.dead[0].x, this.sprite.dead[0].y, this.sprite.dead[0].w, this.sprite.dead[0].h, this.list[i].posX - 20, this.list[i].posY - 20, 40, 40);
 
@@ -868,7 +871,7 @@
 
     };
 
-    enemy.imgTest.src = 'finalFoe.png';
+    enemy.imgTest.src = 'src/img/finalFoe.png';
 
     ///////////////////////////////////////////////////////////////////////////////////////////
     //////////////////// Collision
@@ -887,8 +890,8 @@
 
             }
             // Et des disquettes.
-            for (var i = 0; disk[i] != undefined; i++ ) {
-                disk[i].posX -= player.speed * facteurEchelle +6;
+            for (var i = 0; disk[i] != undefined; i++) {
+                disk[i].posX -= player.speed * facteurEchelle + 6;
             }
             communication('getback'); // Petit message pour la trame.
         }
@@ -901,8 +904,8 @@
                 enemy.list[i].posX += player.speed * facteurEchelle + 6;
 
             }
-            for (var i = 0; disk[i] != undefined; i++ ) {
-                disk[i].posX += player.speed * facteurEchelle +6;
+            for (var i = 0; disk[i] != undefined; i++) {
+                disk[i].posX += player.speed * facteurEchelle + 6;
             }
             communication('getback');
 
@@ -916,8 +919,8 @@
                 enemy.list[i].posY -= player.speed * facteurEchelle + 6;
 
             }
-            for (var i = 0; disk[i] != undefined; i++ ) {
-                disk[i].posY -= player.speed * facteurEchelle +6;
+            for (var i = 0; disk[i] != undefined; i++) {
+                disk[i].posY -= player.speed * facteurEchelle + 6;
             }
             communication('getback');
 
@@ -931,8 +934,8 @@
                 enemy.list[i].posY += player.speed * facteurEchelle + 6;
 
             }
-            for (var i = 0; disk[i] != undefined; i++ ) {
-                disk[i].posY += player.speed * facteurEchelle +6;
+            for (var i = 0; disk[i] != undefined; i++) {
+                disk[i].posY += player.speed * facteurEchelle + 6;
             }
             communication('getback');
 
@@ -946,11 +949,11 @@
                 disk[i].posX + disk[i].width > player.hitBoxX &&
                 disk[i].posY < player.hitBoxY + player.height &&
                 disk[i].height + disk[i].posY > player.hitBoxY + 10) {
-                    
-                    player.score +=50;
-                    return disk[i].erase();
 
-                }
+                player.score += 50;
+                return disk[i].erase();
+
+            }
         }
 
 
@@ -1127,12 +1130,14 @@
             //     console.log(bullets.list[0].destinationX + " impact " + bullets.list[0].destinationY);
             // }
 
-            if(floppyDisks.list.length === 0) {
+            if (floppyDisks.list.length === 0) {
                 floppyDisks.create(5);
             }
 
-            if(player.score >= 1000) {
-                alert('victory');
+            if (player.score >= 1000) {
+                window.document.getElementById('btncv').style.display = 'inline';
+                window.document.getElementById('instruction').innerText = '--- VICTORY ---';
+
             }
 
         };
@@ -1181,12 +1186,12 @@
 
 
         console.log('on click sur start')
-        
+
         if (started) { // Pause.
             cancelAnimationFrame(stopMainLoop); // On stop le request animation frame de mainLoop.
             started = false;
             console.log('ON STOOOOOOP')
-            
+
             canvas.style.display = 'none';
             window.document.getElementById('instruction').style.display = 'block';
             boutonStartPause.innerText = 'Proceed';
@@ -1337,28 +1342,28 @@
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Partie Interface / affichage des scores.
 
-    var communication = function(code) {
+    var communication = function (code) {
 
         var com = window.document.getElementById('display-com');
 
-        if(code === 'getback') {
+        if (code === 'getback') {
             com.innerText = 'Get back to the mission...';
-            
+
         }
-        if(code === 'dead') {
+        if (code === 'dead') {
             com.innerText = 'We seem to have lost the connection...';
         }
 
-        setTimeout(function(){
+        setTimeout(function () {
             com.innerText = 'Message Incoming...';
 
-        },2500);
+        }, 2500);
 
     };
 
 
     var updateDisplayedScore = function () {
-        if ( player.score < 10) {
+        if (player.score < 10) {
 
             window.document.getElementById('point').innerText = '0' + player.score;
 
@@ -1367,21 +1372,21 @@
             window.document.getElementById('point').innerText = player.score;
 
         }
-        if ( player.killCount < 10) {
+        if (player.killCount < 10) {
 
-            window.document.getElementById('kill-count').innerText =  '0' +  player.killCount;
+            window.document.getElementById('kill-count').innerText = '0' + player.killCount;
 
         } else {
 
-            window.document.getElementById('kill-count').innerText =  player.killCount;
+            window.document.getElementById('kill-count').innerText = player.killCount;
 
         }
 
     };
 
-    
+
     // On réinitialise la position du background, les enemy, les bullets et les scores.
-    var restart = function(){
+    var restart = function () {
 
         bullets.list = [];
         enemy.list = [];
@@ -1396,9 +1401,25 @@
 
     }
 
-    
-        var boutonRestart = window.document.getElementById('restart');
-        boutonRestart.addEventListener('click',restart, false);
 
-    
+    var boutonRestart = window.document.getElementById('restart');
+    boutonRestart.addEventListener('click', restart, false);
+
+
+    window.document.getElementById('linkcv1').addEventListener('click', function () {
+        window.document.getElementById('cv').style.display = "block";
+
+    }, false);
+
+    window.document.getElementById('btncv').addEventListener('click', function () {
+        window.document.getElementById('cv').style.display = "block";
+
+    }, false);
+
+
+
+
+
+
+
 })();

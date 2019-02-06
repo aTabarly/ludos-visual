@@ -5,53 +5,125 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="https://fonts.googleapis.com/css?family=Share+Tech" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css?family=Share+Tech" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <title>DARK ZIDE OF THE MOON</title>
+    <title>Site Jeux C.V. - Dark Side Of The Moon</title>
 </head>
 
 <body>
-    <h1>DARK ZIDE OF THE MOON</h1>
-    <h2>the first simulator of space discovery <br> <span>in partnership with la N.A.Z.A</span></h2>
+    <header>
+
+        <div id="intro">
+
+            <div id="titre">
+                <h1>Découvrez le c.v. en explorant la Lune</h1>
+                <p>"Un petit pas pour l'homme, un grand pas pour l'Humanité" 50 ans - "Un c.v. dans un jeu mais aussi
+                    un jeu dans un c.v."</p>
+            </div>
 
 
-    <div id="interface">
+            <nav>
+                <ul>
+                    <h4>Menu</h4>
 
-        <p id="kill">contact established : <span id="kill-count">00</span></p>
-        <p id="score">data gathered : <span id="point">00</span> </p>
-        <p id="display-com">Message Incoming...</p>
+                    <li><a href="#contenu"><span>*</span>play<span>*</span></a></li>
+                    <li><a id="linkcv1" href="#cv" class="action"><span>*</span> c.v.<span>*</span></a></li>
+                    <li><a href="#contact"><span>*</span>contact<span>*</span></a></li>
+                </ul>
+            </nav>
+        </div>
+
+
+
+
+    </header>
+
+
+
+
+    <div id="contenu">
+        <h2> \\ DARK ZIDE OF THE MOON //</h2>
+        <h3>- the first simulator of space odyssey -<br> <span>in partnership with la N.A.Z.A</span></h3>
+
+
+
+
+
         <button id="restart">restart</button>
         <button id="play">launch</button>
-        
-
-    </div>
+        <a id="btncv" href="#cv"><button class="action">c.v.</button></a> 
 
 
 
 
-    
-    
-    
-    <div id="game-container">
-        <canvas id="game-canvas" height="800" width="1200"></canvas>
+        <div id="game-container">
+
+            <canvas id="game-canvas" height="800" width="1200"></canvas>
             <div id="instruction">
-                    <span>how to proceed : </span>
-                    <ul>
-                        <li>arrow keys to move.</li>
-                        <li>left click to communicate.</li>
-                    </ul>
-                    <span>objectives : </span>
-                    <ul>
-                        <li>recovered the lost flopy-disks.</li>
-                        <li>established contact with uknown form of life.</li>
-                    </ul>
-                </div>
-        
+                <span>how to proceed : </span>
+                <ul>
+                    <li>arrow keys to move.</li>
+                    <li>left click to communicate.</li>
+                </ul>
+                <span>objectives : </span>
+                <ul>
+                    <li>recover the lost flopy-disks.</li>
+                    <li>establish first contact with unknown form of life.</li>
+                </ul>
+            </div>
+
+            <div id="interface">
+
+                <h5>Transmission...</h5>
+
+                <p id="kill">contact established : <span id="kill-count">00</span></p>
+                <p id="score">data gathered : <span id="point">00</span> </p>
+                <p id="display-com">Message Incoming...</p>
+                <ul>
+                    <h5>processing data...</h5>
+                    <li id="un">1 - html&Css</li>
+                    <li id="deux">2 - JavaScript</li>
+                    <li id="trois">3 - AngularJs</li>
+                    <li id="quatre">4 - NodeJs</li>
+                    <li id="cinq">5 - Express&MongoDb</li>
+                </ul>
+
+
+            </div>
+
+
+
+            <div id="success">
+
+            </div>
+
+        </div>
+
     </div>
+
+    <div id="cv">
+
+        <iframe src="src/img/CV-Tabarly.pdf" width="600" height="800"></iframe>
+
+    </div>
+
+    <footer>
+
+        <div id="contact">
+            <ul>
+                <li><a href="https://fr.linkedin.com/in/antoine-tabarly"><img src="src/img/linkedin.png" alt="linkedin"
+                            title="linkedIn" height="60px" width="60px"></a></li>
+                <li><a href="https://github.com/aTabarly/ludos-visual"><img src="src/img/github.png" alt="github" title="github"
+                            height="60px" width="60px"></a></li>
+            </ul>
+        </div>
+
+    </footer>
 
 
 
     <script src="script4.js"></script>
+    <script></script>
 </body>
 
 </html>
