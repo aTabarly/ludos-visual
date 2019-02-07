@@ -17,6 +17,8 @@
 
     var facteurEchelle = 2;
 
+    var divInstruction = window.document.getElementById('instruction');
+    var h2Resultat =  window.document.getElementById('resultat');
 
     ///////////////////////////////////////////////////////////////////////////////////////////
     //////////////////// La souris. mouseEvent theMouse
@@ -350,11 +352,11 @@
 
             window.document.getElementById('btncv').style.display = 'inline';
             canvas.style.display = 'none';
-            window.document.getElementById('instruction').style.display = 'inline-block';
+            divInstruction.style.display = 'inline-block';
             
-            window.document.getElementById('resultat').style.display = 'inline';
-            window.document.getElementById('resultat').innerText = 'GAME - OVER';
-            window.document.getElementById('resultat').style.color = 'rgb(167, 4, 4)';
+            h2Resultat.style.display = 'inline';
+            h2Resultat.innerText = 'GAME - OVER';
+            h2Resultat.style.color = 'rgb(167, 4, 4)';
             
 
             communication('dead');
@@ -1151,10 +1153,10 @@
 
             if (player.score > 1000) {
                 window.document.getElementById('btncv').style.display = 'inline';
-                window.document.getElementById('instruction').innerText = '--- VICTORY ---';
-                window.document.getElementById('resultat').style.display = 'block';
-                window.document.getElementById('resultat').style.color = 'green';
-                window.document.getElementById('resultat').innerText = '--- VICTORY ---';
+                divInstruction.innerText = '--- VICTORY ---';
+                h2Resultat.style.display = 'block';
+                h2Resultat.style.color = 'green';
+                h2Resultat.innerText = '--- VICTORY ---';
 
             }
 
@@ -1195,6 +1197,22 @@
 
     };
 
+    var pause = function() {
+
+        console.log('on click sur abort');
+
+        if (started) { // Pause.
+            cancelAnimationFrame(stopMainLoop); // On stop le request animation frame de mainLoop.
+            started = false;
+            console.log('ON STOOOOOOP')
+
+            canvas.style.display = 'none';
+            divInstruction.style.display = 'block';
+            boutonStart.innerText = 'start';
+        } 
+
+    }
+
     var boutonStart = window.document.getElementById('play');
 
     // Bouton start / pause. On affiche soit la div instruction soit le canvas 
@@ -1209,8 +1227,8 @@
             start();
             console.log('STARTED = ' + started);
 
-            window.document.getElementById('instruction').style.display = 'none';
-            window.document.getElementById('resultat').style.display = 'none';
+            divInstruction.style.display = 'none';
+            h2Resultat.style.display = 'none';
             canvas.style.display = 'block';
 
 
@@ -1218,23 +1236,7 @@
 
     }, false);
 
-    window.document.getElementById('abort').addEventListener('click', function () {
-
-
-
-        console.log('on click sur start');
-
-        if (started) { // Pause.
-            cancelAnimationFrame(stopMainLoop); // On stop le request animation frame de mainLoop.
-            started = false;
-            console.log('ON STOOOOOOP')
-
-            canvas.style.display = 'none';
-            window.document.getElementById('instruction').style.display = 'block';
-            boutonStart.innerText = 'start';
-        } 
-
-    }, false);
+    window.document.getElementById('abort').addEventListener('click', pause, false);
 
 
 
@@ -1419,7 +1421,7 @@
         bullets.list = [];
         enemy.list = [];
 
-        window.document.getElementById('resultat').style.display = 'none';
+        h2Resultat.style.display = 'none';
 
         background.x = initMapX;
         background.y = initMapY;

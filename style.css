@@ -180,7 +180,7 @@ h3>span {
     text-transform: uppercase;
 }
 
-h2:last-of-type {
+#resultat {
     color: rgb(167, 4, 4);
     display: none;
 }
