@@ -1,0 +1,13 @@
+{
+    "rules": {
+        "no-unused-vars": "error",
+        "no-implicit-globals": "error",
+        "no-undef": "error"
+    },
+    "parserOptions": {
+        "ecmaVersion": 3
+    },
+    "env": {
+        "browser": true
+    }
+}
