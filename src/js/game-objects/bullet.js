@@ -2,7 +2,8 @@
 ////////////////////  Bullet création.
 
 (function (window) {
-
+    'use strict';
+    
     var Bullet = function (tX, tY, numSerie, speed, centerX, centerY) {
         this.num = numSerie;
 
@@ -24,14 +25,6 @@
 
     };
 
-    Bullet.prototype.clean = function () {
-
-        // TODO inversion
-        bullets.list.splice(bullets.list.indexOf(this), 1);
-
-        return this;
-    };
-
     window.bulletShooted = function (tX, tY, numSerie, speed, scene) {
         return new Bullet(tX, tY, numSerie, speed, scene.centerX, scene.centerY);
     };
@@ -40,10 +33,14 @@
         return {
         
             list: [],
+
+            clean: function(bulletIndex) {
+                this.list.splice(bulletIndex, 1);
+            },
     
             move: function () {
     
-                for (var i = 0; this.list[i] != undefined; i++) {
+                for (var i = 0; this.list[i] !== undefined; i++) {
     
                     var angle = Math.atan2(this.list[i].deltaY, this.list[i].deltaX);
     
@@ -59,7 +56,7 @@
     
             draw: function (context) {
     
-                for (var i = 0; this.list[i] != undefined; i++) {
+                for (var i = 0; this.list[i] !== undefined; i++) {
     
                     context.beginPath();
     

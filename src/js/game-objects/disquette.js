@@ -1,5 +1,5 @@
 (function(window){
-    
+    'use strict';
     var randomPos = function (axe) {
         var value;
     
@@ -31,14 +31,6 @@
 
         };
 
-        Disquette.prototype.erase = function () {
-
-            // TODO
-            floppyDisks.list.splice(floppyDisks.list.indexOf(this), 1);
-
-        };
-
-
         var floppy = function (a, b) {
             return new Disquette(a, b);
         };
@@ -51,6 +43,9 @@
         return {
 
             list: [],
+            erase: function(diskIndex) {
+                this.list.splice(diskIndex, 1);
+            },
             init: function (nbrDeDisquette, imageSource) {
 
                 this.list = [];
@@ -67,7 +62,7 @@
             image: null,
 
             draw: function (context) {
-                for (var i = 0; this.list[i] != undefined; i++) {
+                for (var i = 0; this.list[i] !== undefined; i++) {
 
                     var d = this.list[i];
 

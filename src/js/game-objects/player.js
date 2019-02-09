@@ -159,7 +159,7 @@ window.playerFactory = function(scene, bulletShooted){
 
         killCount: 0,
 
-        move: function (bullets, floppyDisks, background) {
+        move: function (bullets, floppyDisks, background, enemies) {
             var balls = bullets.list;
             var disk = floppyDisks.list;
 
@@ -169,16 +169,16 @@ window.playerFactory = function(scene, bulletShooted){
                 if (this.direction.left) {
                     background.x -= this.speed;
 
-                    for (var i = 0; balls[i] != undefined; i++) { // correction bullet en fonction du déplacement
+                    for (var i = 0; balls[i] !== undefined; i++) { // correction bullet en fonction du déplacement
 
                         balls[i].destinationX += this.speed * facteurEchelle; // *4 voir transformation du background.
                         balls[i].posX += this.speed * facteurEchelle; //test, envisager de caser la position de la bullet sur une référence du background
                     }
-                    for (var i = 0; enemy.list[i] != undefined; i++) {
+                    for (var i = 0; enemies.list[i] !== undefined; i++) {
 
-                        enemy.list[i].posX += this.speed * facteurEchelle;
+                        enemies.list[i].posX += this.speed * facteurEchelle;
                     }
-                    for (var i = 0; disk[i] != undefined; i++) {
+                    for (var i = 0; disk[i] !== undefined; i++) {
                         disk[i].posX += this.speed * facteurEchelle;
                     }
 
@@ -188,16 +188,16 @@ window.playerFactory = function(scene, bulletShooted){
                 if (this.direction.up) {
                     background.y -= this.speed;
 
-                    for (var i = 0; balls[i] != undefined; i++) {
+                    for (var i = 0; balls[i] !== undefined; i++) {
 
                         balls[i].destinationY += this.speed * facteurEchelle;
                         balls[i].posY += this.speed * facteurEchelle; //test, envisager de caser la position de la bullet sur une référence du background
                     }
-                    for (var i = 0; enemy.list[i] != undefined; i++) {
+                    for (var i = 0; enemies.list[i] !== undefined; i++) {
 
-                        enemy.list[i].posY += this.speed * facteurEchelle;
+                        enemies.list[i].posY += this.speed * facteurEchelle;
                     }
-                    for (var i = 0; disk[i] != undefined; i++) {
+                    for (var i = 0; disk[i] !== undefined; i++) {
                         disk[i].posY += this.speed * facteurEchelle;
                     }
                 }
@@ -206,16 +206,16 @@ window.playerFactory = function(scene, bulletShooted){
                 if (this.direction.right) {
                     background.x += this.speed;
 
-                    for (var i = 0; balls[i] != undefined; i++) {
+                    for (var i = 0; balls[i] !== undefined; i++) {
 
                         balls[i].destinationX -= this.speed * facteurEchelle;
                         balls[i].posX -= this.speed * facteurEchelle; //test, envisager de caser la position de la bullet sur une référence du background
                     }
-                    for (var i = 0; enemy.list[i] != undefined; i++) {
+                    for (var i = 0; enemies.list[i] !== undefined; i++) {
 
-                        enemy.list[i].posX -= this.speed * facteurEchelle;
+                        enemies.list[i].posX -= this.speed * facteurEchelle;
                     }
-                    for (var i = 0; disk[i] != undefined; i++) {
+                    for (var i = 0; disk[i] !== undefined; i++) {
                         disk[i].posX -= this.speed * facteurEchelle;
                     }
                 }
@@ -224,16 +224,16 @@ window.playerFactory = function(scene, bulletShooted){
                 if (this.direction.down) {
                     background.y += this.speed;
 
-                    for (var i = 0; balls[i] != undefined; i++) {
+                    for (var i = 0; balls[i] !== undefined; i++) {
 
                         balls[i].destinationY -= this.speed * facteurEchelle;
                         balls[i].posY -= this.speed * facteurEchelle; //test, envisager de caser la position de la bullet sur une référence du background
                     }
-                    for (var i = 0; enemy.list[i] != undefined; i++) {
+                    for (var i = 0; enemies.list[i] !== undefined; i++) {
 
-                        enemy.list[i].posY -= this.speed * facteurEchelle;
+                        enemies.list[i].posY -= this.speed * facteurEchelle;
                     }
-                    for (var i = 0; disk[i] != undefined; i++) {
+                    for (var i = 0; disk[i] !== undefined; i++) {
                         disk[i].posY -= this.speed * facteurEchelle;
                     }
                 }
@@ -256,7 +256,7 @@ window.playerFactory = function(scene, bulletShooted){
             var currentPosture = this.posture[this.postureCounter];
 
             // Bouclette sprite
-            if (this.oldPosture != this.posture || currentPosture === undefined) {
+            if (this.oldPosture !== this.posture || currentPosture === undefined) {
                 this.postureCounter = 0;
             };
             this.oldPosture = this.posture;

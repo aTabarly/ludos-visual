@@ -2,29 +2,42 @@
     'use strict';
     
     var scene = window.sceneFactory();
-    var bullets = window.bulletsFactory();
+    var background = window.backgroundFactory(scene);
+    background.init();
 
     var floppyDisks = window.floppyDisksFactory();
     floppyDisks.init(10, 'src/img/player.png');
-    
-    var score = window.scoreFactory();
 
-    var background = window.backgroundFactory(scene);
-    background.init();
+    var bullets = window.bulletsFactory();
    
     var player = window.playerFactory(scene, window.bulletShooted, bullets);
     player.init();
-
-    var theMouse = window.theMouseFactory(player);
-
-    var enemy = window.enemyFactory();
-    enemy.init('src/img/finalFoe.png');
-
-    var collision = window.collision(scene, floppyDisks, background, player, enemy, bullets, score, app);
-
-    var mainLoop = window.loopFactory(scene, background, player, enemy, theMouse, score, collision, floppyDisks, bullets);
-
-    var app = window.gameFactory(scene, mainLoop, score, bullets, enemy, floppyDisks, background, player);
     
-    window.controlsInit(app, player, scene, theMouse);
+    var enemies = window.enemiesFactory(scene, player);
+    enemies.init('src/img/finalFoe.png');
+    
+    var gameObjects = {
+        enemies: enemies,
+        player: player,
+        floppyDisks: floppyDisks,
+        bullets: bullets
+    };
+
+    var ui = {
+        background: background,
+        scene: scene,
+        theMouse: window.theMouseFactory(player),
+    };
+
+    var constants = {
+        GAME_OVER: 'GAME_OVER',
+    };
+
+    var collision = window.collisionFactory(ui, gameObjects, constants);
+
+    var mainLoop = window.loopFactory(ui, gameObjects, collision, constants);
+
+    var game = window.gameFactory(ui, gameObjects, mainLoop);
+    
+    window.controlsInit(ui, gameObjects, game);
 })(window);

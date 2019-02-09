@@ -1,162 +1,168 @@
 (function(window){
-'use strict';
+    'use strict';
 
-window.collision = function (scene, floppyDisks, background, player, enemy, bullets, score, app) { // Fonction qui calcule toute les collisions.
+    window.collisionFactory = function (ui, gameObjects, constants) { // Fonction qui calcule toute les collisions.
+        var player = gameObjects.player;
+        var enemies = gameObjects.enemies;
+        var floppyDisks = gameObjects.floppyDisks;
+        var bullets = gameObjects.bullets;
 
-    var facteurEchelle = scene.facteurEchelle;
-    var disk = floppyDisks.list;
-    // Player vs Bordure. Renvoie le joueur dans l'aire de jeu. 
-    if (background.x < background.minX) {
+        var scene = ui.scene;
+        var background = ui.background;
 
-        background.x += player.speed + 2;
-        // Et corrige la position des zombis, modifié par la méthode player.move.
-        for (var i = 0; enemy.list[i] != undefined; i++) {
+        return function() {
+            var facteurEchelle = scene.facteurEchelle;
+            var disks = floppyDisks.list;
+            // Player vs Bordure. Renvoie le joueur dans l'aire de jeu. 
+            if (background.x < background.minX) {
 
-            enemy.list[i].posX -= player.speed * facteurEchelle + 6;
+                background.x += player.speed + 2;
+                // Et corrige la position des zombis, modifié par la méthode player.move.
+                for (var i = 0; enemies.list[i] !== undefined; i++) {
 
-        }
-        // Et des disquettes.
-        for (var i = 0; disk[i] != undefined; i++) {
-            disk[i].posX -= player.speed * facteurEchelle + 6;
-        }
-        score.communication('getback'); // Petit message pour la trame.
-    }
-    if (background.x > background.maxX) {
+                    enemies.list[i].posX -= player.speed * facteurEchelle + 6;
 
-        background.x -= player.speed + 2;
+                }
+                // Et des disquettes.
+                for (var i = 0; disks[i] !== undefined; i++) {
+                    disks[i].posX -= player.speed * facteurEchelle + 6;
+                }
+                scene.communication('getback'); // Petit message pour la trame.
+            }
+            if (background.x > background.maxX) {
 
-        for (var i = 0; enemy.list[i] != undefined; i++) {
+                background.x -= player.speed + 2;
 
-            enemy.list[i].posX += player.speed * facteurEchelle + 6;
+                for (var i = 0; enemies.list[i] !== undefined; i++) {
 
-        }
-        for (var i = 0; disk[i] != undefined; i++) {
-            disk[i].posX += player.speed * facteurEchelle + 6;
-        }
-        score.communication('getback');
+                    enemies.list[i].posX += player.speed * facteurEchelle + 6;
 
-    }
-    if (background.y < background.minY) {
+                }
+                for (var i = 0; disks[i] !== undefined; i++) {
+                    disks[i].posX += player.speed * facteurEchelle + 6;
+                }
+                scene.communication('getback');
 
-        background.y += player.speed + 2;
+            }
+            if (background.y < background.minY) {
 
-        for (var i = 0; enemy.list[i] != undefined; i++) {
+                background.y += player.speed + 2;
 
-            enemy.list[i].posY -= player.speed * facteurEchelle + 6;
+                for (var i = 0; enemies.list[i] !== undefined; i++) {
 
-        }
-        for (var i = 0; disk[i] != undefined; i++) {
-            disk[i].posY -= player.speed * facteurEchelle + 6;
-        }
-        score.communication('getback');
+                    enemies.list[i].posY -= player.speed * facteurEchelle + 6;
 
-    }
-    if (background.y > background.maxY) {
+                }
+                for (var i = 0; disks[i] !== undefined; i++) {
+                    disks[i].posY -= player.speed * facteurEchelle + 6;
+                }
+                scene.communication('getback');
 
-        background.y -= player.speed + 2;
+            }
+            if (background.y > background.maxY) {
 
-        for (var i = 0; enemy.list[i] != undefined; i++) {
+                background.y -= player.speed + 2;
 
-            enemy.list[i].posY += player.speed * facteurEchelle + 6;
+                for (var i = 0; enemies.list[i] !== undefined; i++) {
 
-        }
-        for (var i = 0; disk[i] != undefined; i++) {
-            disk[i].posY += player.speed * facteurEchelle + 6;
-        }
-        score.communication('getback');
+                    enemies.list[i].posY += player.speed * facteurEchelle + 6;
 
-    }
-    //// Player vs Disquette rapporte des points.
+                }
+                for (var i = 0; disks[i] !== undefined; i++) {
+                    disks[i].posY += player.speed * facteurEchelle + 6;
+                }
+                scene.communication('getback');
 
-    var disk = floppyDisks.list;
+            }
+            //// Player vs Disquette rapporte des points.
 
-    for (var i = 0; disk[i] != undefined; i++) {
-        if (disk[i].posX < player.hitBoxX + player.width &&
-            disk[i].posX + disk[i].width > player.hitBoxX &&
-            disk[i].posY < player.hitBoxY + player.height &&
-            disk[i].height + disk[i].posY > player.hitBoxY + 10) {
+            var disks = floppyDisks.list;
 
-            player.score += 85;
-            return disk[i].erase();
+            for (var i = 0; disks[i] !== undefined; i++) {
+                var disk = disks[i];
+                if (disk.posX < player.hitBoxX + player.width &&
+                    disk.posX + disk.width > player.hitBoxX &&
+                    disk.posY < player.hitBoxY + player.height &&
+                    disk.height + disk.posY > player.hitBoxY + 10) {
 
-        }
-    }
-
-
-    ////// Enemy vs Enemy vs Player. Une boucle parcour le tableau qui contient les références aux zombis.
-    // On verifie s'il y a une collision avec un autre enemy ou le player.
-    for (var i = 0; enemy.list[i] != undefined; i++) {
-
-        enemy.list[i].hitBoxX = enemy.list[i].posX - enemy.list[i].hitBoxRadius;
-        enemy.list[i].hitBoxY = enemy.list[i].posY - enemy.list[i].hitBoxRadius;
-
-
-        // Enemy vs Enemy. Provoque un déplacement aléatoire.
-        // On compare la position de chaque enemy avec les autres avec une boucle imbriquée.
-
-        for (var j = 0; enemy.list[j] != undefined; j++) {
-
-            enemy.list[j].hitBoxX = enemy.list[j].posX - enemy.list[j].hitBoxRadius;
-            enemy.list[j].hitBoxY = enemy.list[j].posY - enemy.list[j].hitBoxRadius;
-
-
-            if (enemy.list[i].state === enemy.sprite.walking && enemy.list[j].state === enemy.sprite.walking) { // Si les enemy sont 'vivant' ils peuvent entrer en collision.
-
-
-                var collisionX = i != j && enemy.list[i].hitBoxX < enemy.list[j].hitBoxX + enemy.list[j].width && enemy.list[i].hitBoxX + enemy.list[i].width > enemy.list[j].hitBoxX;
-
-                var collisionY = i != j && enemy.list[i].hitBoxY < enemy.list[j].hitBoxY + enemy.list[j].height && enemy.list[i].height + enemy.list[i].hitBoxY > enemy.list[j].hitBoxY
-
-
-                if (collisionX && collisionY) { // Si collision, on modifie leur position.
-
-                    enemy.list[i].posX += Math.random() * (10) - 5;
-                    enemy.list[i].posY += Math.random() * (10) - 5;
-
-                    enemy.list[j].posX += Math.random() * (10) - 5;
-                    enemy.list[j].posY += Math.random() * (10) - 5;
+                    player.score += 85;
+                    return floppyDisks.erase(i);
 
                 }
             }
-        }
 
-        // Z vs player. On compare la position de chaque enemy avec la position de player. 1 seule vie, la collision provoque le game over.
 
-        if (enemy.list[i].hitBoxX < player.hitBoxX + player.width - 10 &&
-            enemy.list[i].hitBoxX + enemy.list[i].width > player.hitBoxX + 10 &&
-            enemy.list[i].hitBoxY < player.hitBoxY + player.height - 10 &&
-            enemy.list[i].height + enemy.list[i].hitBoxY > player.hitBoxY + 10) {
+            ////// enemies vs enemies vs Player. Une boucle parcour le tableau qui contient les références aux zombis.
+            // On verifie s'il y a une collision avec un autre enemies ou le player.
+            for (var i = 0; enemies.list[i] !== undefined; i++) {
 
-            if (enemy.list[i].state === enemy.sprite.walking) {
+                var enemy = enemies.list[i];
+                enemy.hitBoxX = enemy.posX - enemy.hitBoxRadius;
+                enemy.hitBoxY = enemy.posY - enemy.hitBoxRadius;
 
-                app.gameOver();
 
-            }
+                // enemies vs enemies. Provoque un déplacement aléatoire.
+                // On compare la position de chaque enemies avec les autres avec une boucle imbriquée.
 
-        }
+                for (var j = 0; enemies.list[j] !== undefined; j++) {
 
-        // Z vs bullet. 
+                    var innerEnemy = enemies.list[j];
+                    innerEnemy.hitBoxX = innerEnemy.posX - innerEnemy.hitBoxRadius;
+                    innerEnemy.hitBoxY = innerEnemy.posY - innerEnemy.hitBoxRadius;
 
-        for (var j = 0; bullets.list[j] != undefined; j++) {
 
-            if (enemy.list[i].state === enemy.sprite.walking) {
+                    if (enemy.state === enemies.sprite.walking && innerEnemy.state === enemies.sprite.walking) { // Si les enemies sont 'vivant' ils peuvent entrer en collision.
 
-                if (bullets.list[j].posX < enemy.list[i].hitBoxX + enemy.list[i].width && bullets.list[j].posX > enemy.list[i].hitBoxX && bullets.list[j].posY < enemy.list[i].hitBoxY + enemy.list[i].height && bullets.list[j].posY > enemy.list[i].hitBoxY) {
-                    console.log('la balle touche');
 
-                    enemy.list[i].state = enemy.sprite.dead; // On change le sprite du zombi.
+                        var collisionX = i !== j && enemy.hitBoxX < innerEnemy.hitBoxX + innerEnemy.width && enemy.hitBoxX + enemy.width > innerEnemy.hitBoxX;
 
-                    return bullets.list[j].clean(); // On supprime la bullet en supprimant son référencement.
+                        var collisionY = i !== j && enemy.hitBoxY < innerEnemy.hitBoxY + innerEnemy.height && enemy.height + enemy.hitBoxY > innerEnemy.hitBoxY
+
+
+                        if (collisionX && collisionY) { // Si collision, on modifie leur position.
+
+                            enemy.posX += Math.random() * (10) - 5;
+                            enemy.posY += Math.random() * (10) - 5;
+
+                            innerEnemy.posX += Math.random() * (10) - 5;
+                            innerEnemy.posY += Math.random() * (10) - 5;
+
+                        }
+                    }
+                }
+
+                // Z vs player. On compare la position de chaque enemies avec la position de player. 1 seule vie, la collision provoque le game over.
+
+                if (enemy.hitBoxX < player.hitBoxX + player.width - 10 &&
+                    enemy.hitBoxX + enemy.width > player.hitBoxX + 10 &&
+                    enemy.hitBoxY < player.hitBoxY + player.height - 10 &&
+                    enemy.height + enemy.hitBoxY > player.hitBoxY + 10) {
+                    if (enemy.isWalking()) {
+                        return constants.GAME_OVER;
+                    }
+                }
+
+                // Z vs bullet. 
+
+                for (var j = 0; bullets.list[j] !== undefined; j++) {
+
+                    if (enemy.isWalking()) {
+
+                        if (bullets.list[j].posX < enemy.hitBoxX + enemy.width && bullets.list[j].posX > enemy.hitBoxX && bullets.list[j].posY < enemy.hitBoxY + enemy.height && bullets.list[j].posY > enemy.hitBoxY) {
+                            console.log('la balle touche');
+
+                            enemy.die(); // On change le sprite du zombi.
+
+                            return bullets.clean(j); // On supprime la bullet en supprimant son référencement.
+                        }
+
+                    }
 
 
                 }
 
+
             }
-
-
-        }
-
-
-    }
-};
+        };
+    };
 })(window)

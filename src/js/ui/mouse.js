@@ -1,4 +1,5 @@
 (function(window){
+    'use strict';
     window.theMouseFactory = function(player){
         return {
             xOnCanvas: undefined,

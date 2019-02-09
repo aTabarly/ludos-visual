@@ -1,6 +1,6 @@
 (function(){
-
-    var invocation = false; // Un enemy est il en cours de création.
+    'use strict';
+    var invocation = false; // Un enemies est il en cours de création.
 
     var SPRITE = {
         WALKING: [
@@ -69,10 +69,11 @@
         }],
     };
 
-    var createEnemy = function () {
+    var createEnemies = function () {
+        Zombi.counter = 0;
 
-        function Zombi(maxSpeed, minSpeed) {
-            this.num = 'zombi' + enemy.list.length;
+        function Zombi(maxSpeed, minSpeed, canvasWidth, canvasHeight) {
+            this.num = 'zombi' + Zombi.counter++;
 
             this.speed = Math.random() * (maxSpeed - minSpeed) + minSpeed;
 
@@ -97,31 +98,50 @@
             this.hp = 4;
         };
 
-        Zombi.prototype.die = function () {
+        Zombi.prototype.isDead = function(){
+            return this.state === SPRITE.DEAD;
+        }
 
-            enemy.list.splice(enemy.list.indexOf(this), 1);
+        Zombi.prototype.isWalking = function(){
+            return this.state === SPRITE.WALKING;
+        }
 
-            player.score += 1;
-            player.killCount += 1;
+        Zombi.prototype.die = function(){
+            this.state = SPRITE.DEAD;
+        }
 
-        };
-
-        var romero = function (a, b) {
-            return new Zombi(a, b);
+        var romero = function (maxSpeed, minSpeed, canvasWidth, canvasHeight) {
+            return new Zombi(maxSpeed, minSpeed, canvasWidth, canvasHeight);
         };
 
         return romero;
 
     }();
 
-    window.enemyFactory = function(){
+    window.enemiesFactory = function(scene, player){
+        var centerX = scene.centerX;
+        var centerY = scene.centerY;
+
         return {
+            die: function(zombieIndex){
+                this.list.splice(zombieIndex, 1);
+                player.score += 1;
+                player.killCount += 1;
+            },
+
+            isWalking: function(zombieIndex) {
+                return this.list[zombieIndex].isWalking();
+            },
+
+            isDead: function(zombieIndex) {
+                return this.list[zombieIndex].isDead();
+            },
 
             death: function () {
 
-                for (var i = 0; this.list[i] != undefined; i++) {
-                    if (this.list[i].state === SPRITE.DEAD) {
-                        this.list[i].die();
+                for (var i = 0; this.list[i] !== undefined; i++) {
+                    if (this.isDead(i)) {
+                        this.die(i);
                     }
                 }
 
@@ -132,7 +152,7 @@
 
             move: function () {
 
-                for (var i = 0; this.list[i] != undefined; i++) {
+                for (var i = 0; this.list[i] !== undefined; i++) {
 
                     if (this.list[i].state === SPRITE.WALKING) {
 
@@ -168,13 +188,13 @@
                 };
 
 
-                for (var i = 0; this.list[i] != undefined; i++) {
+                for (var i = 0; this.list[i] !== undefined; i++) {
 
                     this.list[i].hitBoxX = this.list[i].posX - this.list[i].hitBoxRadius;
                     this.list[i].hitBoxY = this.list[i].posY - this.list[i].hitBoxRadius;
 
                     if (this.list[i].state === SPRITE.WALKING) {
-                        // Enemy walking.
+                        // enemies walking.
 
                         var c = this.spriteCounter;
 
@@ -220,7 +240,7 @@
                     invocation = true;
 
                     setTimeout(function () {
-                        self.list[self.list.length] = createEnemy(self.speedMax, self.speedMin); // param
+                        self.list[self.list.length] = createEnemies(self.speedMax, self.speedMin, scene.canvasWidth, scene.canvasHeight); // param
                         invocation = false;
                     }, 500);
 

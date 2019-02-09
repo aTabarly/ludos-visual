@@ -1,4 +1,5 @@
 (function(window){
+    'use strict';
     window.backgroundFactory = function(scene){
         return {
 

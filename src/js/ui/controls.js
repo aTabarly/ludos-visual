@@ -1,6 +1,11 @@
 (function(window){
+    'use strict';
+    window.controlsInit = function(ui, gameObjects, app) {
+        var player = gameObjects.player;
+        var bullets = gameObjects.bullets;
 
-    window.controlsInit = function(app, player, scene, bullets, theMouse) {
+        var scene = ui.scene;
+        var theMouse = ui.theMouse;
 
         scene.canvas.addEventListener('mousemove', function (e) {
 
