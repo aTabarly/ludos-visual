@@ -23,6 +23,8 @@ Le code doit s'auto-documenter et nécessiter des commentaires seulement dans de
 ```
 ↓ devient
 ```js
+var KEY_CODE = {UP:40, LEFT:38}
+
 // On enlève les commentaires et on remplace les valeurs en dur par des variables aux noms explicites
 window.addEventListener('keydown', function (event) {
     var code = event.keyCode;
