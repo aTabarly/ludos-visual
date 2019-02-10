@@ -1,6 +1,6 @@
 (function(window){
     'use strict';
-    window.controlsInit = function(ui, gameObjects, app) {
+    window.controlsInit = function(ui, gameObjects, game) {
         var player = gameObjects.player;
         var bullets = gameObjects.bullets;
 
@@ -27,7 +27,7 @@
 
         scene.canvas.addEventListener('mousedown', function () {
 
-            if (app.started) {
+            if (game.started) {
 
                 player.shoot(bullets, theMouse);
             }
@@ -36,7 +36,7 @@
 
         window.document.addEventListener('keydown', function (e) {
 
-            if (app.started && e.keyCode === 32 && !player.fullAuto) {
+            if (game.started && e.keyCode === 32 && !player.fullAuto) {
 
                 player.shoot(bullets, theMouse);
             }
@@ -47,7 +47,7 @@
     //////////////////// La souris. mouseEvent theMouse
 
     scene.canvas.addEventListener('mouseover', function () {
-        if (app.started) {
+        if (game.started) {
             this.style.cursor = 'none';
         }
     }, false);
@@ -56,10 +56,10 @@
 
     // Bouton start / pause. On affiche soit la div instruction soit le canvas 
 
-    boutonStart.addEventListener('click', function () { app.start(); }, false);
+    boutonStart.addEventListener('click', function () { game.start(); }, false);
 
     window.document.getElementById('abort').addEventListener('click', function(){ 
-        app.pause();
+        game.pause();
         boutonStart.innerText = 'start';
     }, false);
 
@@ -167,7 +167,7 @@
 
 
     var boutonRestart = window.document.getElementById('restart');
-    boutonRestart.addEventListener('click', function(){ app.restart() }, false);
+    boutonRestart.addEventListener('click', function(){ game.restart() }, false);
 
     window.document.getElementById('linkcv1').addEventListener('click', function () {
         window.document.getElementById('cv').style.display = "block";
