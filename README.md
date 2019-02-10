@@ -72,7 +72,7 @@ Ici on a un plusieurs avantages:
 ```
 
 ## Constantes
-Comme en ES3 il n'y a pas de ``const``, la convention veut que les constantes soit écrites en UPPER_SNAKE_CASE
+Comme en ES3 il n'y a pas de ``const``, la convention veut que les constantes soient écrites en UPPER_SNAKE_CASE
 
 ## Comparaisons 
 Toujours privilégier ``===`` et ``!==`` à ``==`` et ``!=``
