@@ -14,13 +14,8 @@
         var background = ui.background;
         var theMouse = ui.theMouse;
 
-        return {
-            game: undefined,
-            bindToGame: function(game) {
-                this.game = game;
-            },
-            loop: function (tFrame) {
-                console.log('loop', tFrame, timeBase, timeBase2, this);
+        return function(game) {
+           return function loop(tFrame) {
                 var balls = bullets.list;
 
                 if (!timeBase || !timeBase2) { // On initialise les timestamps pour la première exécution.
@@ -32,7 +27,6 @@
                 // console.log(' DELTA TIME : ' + (tFrame - timeBase));
 
                 if ((tFrame - timeBase) >= 40) {
-                    console.log('draw', scene.context);
 
                     timeBase = tFrame; // On réinitialise la valeur de timeBase pour le prochain passage.
                     // clear
@@ -80,7 +74,7 @@
 
                     // Check collision.
                     if(collision() === constants.GAME_OVER){
-                        this.game && this.game.gameOver();
+                        game && game.gameOver();
                     }
                 };
 
@@ -113,8 +107,8 @@
                     }
                 };
 
-                if (this.game.started) {
-                    this.game.stopMainLoop = window.requestAnimationFrame(this.loop);
+                if (game.started) {
+                    game.stopMainLoop = window.requestAnimationFrame(loop);
                 };
             }
         };

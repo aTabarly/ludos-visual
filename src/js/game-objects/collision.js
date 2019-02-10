@@ -111,7 +111,7 @@
                     innerEnemy.hitBoxY = innerEnemy.posY - innerEnemy.hitBoxRadius;
 
 
-                    if (enemy.state === enemies.sprite.walking && innerEnemy.state === enemies.sprite.walking) { // Si les enemies sont 'vivant' ils peuvent entrer en collision.
+                    if (enemy.isWalking() && innerEnemy.isWalking()) { // Si les enemies sont 'vivant' ils peuvent entrer en collision.
 
 
                         var collisionX = i !== j && enemy.hitBoxX < innerEnemy.hitBoxX + innerEnemy.width && enemy.hitBoxX + enemy.width > innerEnemy.hitBoxX;
@@ -149,7 +149,6 @@
                     if (enemy.isWalking()) {
 
                         if (bullets.list[j].posX < enemy.hitBoxX + enemy.width && bullets.list[j].posX > enemy.hitBoxX && bullets.list[j].posY < enemy.hitBoxY + enemy.height && bullets.list[j].posY > enemy.hitBoxY) {
-                            console.log('la balle touche');
 
                             enemy.die(); // On change le sprite du zombi.
 

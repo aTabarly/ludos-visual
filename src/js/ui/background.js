@@ -20,10 +20,11 @@
 
             map: null,
 
-            init: function() {
+            init: function(imageSource) {
                 var map = new Image();
-                map.src = 'src/img/moonWFog.png';
+                map.src = imageSource;
                 this.map = map;
+                return this;
             },
 
             draw: function (context) {

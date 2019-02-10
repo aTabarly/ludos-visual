@@ -8,7 +8,6 @@
             canvas: canvas,
             context: context,
             clearing: function () {
-                console.log('clearing');
                 this.context.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
             },
             divInstruction: window.document.getElementById('instruction'),

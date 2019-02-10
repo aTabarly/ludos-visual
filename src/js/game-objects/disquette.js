@@ -56,7 +56,7 @@
 
                 this.image = new Image();
                 this.image.src = imageSource;
-
+                return this;
             },
 
             image: null,

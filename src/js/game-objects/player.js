@@ -163,7 +163,7 @@ window.playerFactory = function(scene, bulletShooted){
             var balls = bullets.list;
             var disk = floppyDisks.list;
 
-            if (this.posture === this.spritePlayer.move) {
+            if (this.posture === SPRITE_PLAYER.MOVE) {
 
                 // Gauche
                 if (this.direction.left) {
@@ -246,10 +246,11 @@ window.playerFactory = function(scene, bulletShooted){
 
         imageTest: null,
 
-        init: function() {
+        init: function(imageSource) {
             var image = new Image()
-            image.src = 'src/img/player.png';
+            image.src = imageSource;
             this.imageTest = image;
+            return this;
         },
 
         draw: function (context, theMouse) {

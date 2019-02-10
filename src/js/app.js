@@ -2,19 +2,23 @@
     'use strict';
     
     var scene = window.sceneFactory();
-    var background = window.backgroundFactory(scene);
-    background.init();
+    var background = window
+                        .backgroundFactory(scene)
+                        .init('src/img/moonWFog.png');
 
-    var floppyDisks = window.floppyDisksFactory();
-    floppyDisks.init(10, 'src/img/player.png');
+    var floppyDisks = window
+                        .floppyDisksFactory()
+                        .init(10, 'src/img/player.png');
 
     var bullets = window.bulletsFactory();
    
-    var player = window.playerFactory(scene, window.bulletShooted, bullets);
-    player.init();
+    var player = window
+                    .playerFactory(scene, window.bulletShooted, bullets)
+                    .init('src/img/player.png');
     
-    var enemies = window.enemiesFactory(scene, player);
-    enemies.init('src/img/finalFoe.png');
+    var enemies = window
+                    .enemiesFactory(scene, player)
+                    .init('src/img/finalFoe.png');
     
     var gameObjects = {
         enemies: enemies,

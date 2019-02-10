@@ -190,22 +190,23 @@
 
                 for (var i = 0; this.list[i] !== undefined; i++) {
 
-                    this.list[i].hitBoxX = this.list[i].posX - this.list[i].hitBoxRadius;
-                    this.list[i].hitBoxY = this.list[i].posY - this.list[i].hitBoxRadius;
+                    var zombie = this.list[i];
+                    zombie.hitBoxX = zombie.posX - zombie.hitBoxRadius;
+                    zombie.hitBoxY = zombie.posY - zombie.hitBoxRadius;
 
-                    if (this.list[i].state === SPRITE.WALKING) {
+                    if (zombie.isWalking()) {
                         // enemies walking.
 
                         var c = this.spriteCounter;
 
-                        var zDeltaX = centerX - this.list[i].hitBoxX; // difference X entre le zombi.
-                        var zDeltaY = centerY - this.list[i].hitBoxY; //
+                        var zDeltaX = centerX - zombie.hitBoxX; // difference X entre le zombi.
+                        var zDeltaY = centerY - zombie.hitBoxY; //
 
                         var zAngle = Math.atan2(zDeltaY, zDeltaX);// L'angle en radians 
 
                         context.beginPath();
 
-                        context.translate(this.list[i].posX, this.list[i].posY);
+                        context.translate(zombie.posX, zombie.posY);
 
                         context.rotate(zAngle + 1.5);
 
@@ -214,11 +215,11 @@
                         context.rotate(-zAngle - 1.5);
 
 
-                        context.translate(-this.list[i].posX, -this.list[i].posY);
+                        context.translate(-zombie.posX, -zombie.posY);
 
-                    } else if (this.list[i].state === SPRITE.DEAD) {
+                    } else if (zombie.isDead()) {
 
-                        context.drawImage(this.imgTest, this.sprite.dead[0].x, this.sprite.dead[0].y, this.sprite.dead[0].w, this.sprite.dead[0].h, this.list[i].posX - 20, this.list[i].posY - 20, 40, 40);
+                        context.drawImage(this.imgTest, SPRITE.DEAD[0].x, SPRITE.DEAD[0].y, SPRITE.DEAD[0].w, SPRITE.DEAD[0].h, zombie.posX - 20, zombie.posY - 20, 40, 40);
 
                     }
 
@@ -230,6 +231,7 @@
 
             init: function(imageSource){
                 this.imgTest.src = imageSource;
+                return this;
             },
 
             invoque: function () { // Methode qui crée de nouveaux zombis, avec un délai et un nombre maximum.
