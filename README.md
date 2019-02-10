@@ -41,7 +41,7 @@ window.addEventListener('keydown', function (event) {
 
 ## Encapsulation (principe de la programmation orientée objet)
 ```js
-if(enemy.state === sprite.dead){
+if(enemy.state === 'dead'){
  //...
 }
 ```
